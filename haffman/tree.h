@@ -1,4 +1,6 @@
-void gen_init(){
+#include "variables.h"
+
+void gen_init() {
 	int i;
 	for(i=0;i<256;i++)
 		if(kol[i]){
