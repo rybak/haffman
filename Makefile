@@ -16,11 +16,7 @@ clean:
 test.txt:
 	base64 /dev/urandom | head -c 10000000 > $@
 
-test: haff rehaff test.txt
-	./haff test.txt
-	echo
-	./rehaff test.txt.ch test2.txt
-	echo
-	diff --report-identical-files test.txt test2.txt
+test: haff rehaff test.txt test.sh
+	./test.sh test.txt
 
 .PHONY: test
