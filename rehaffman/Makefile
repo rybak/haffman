@@ -1,5 +1,5 @@
 
-../rehaffman: rehaff
+../rehaff: rehaff
 	cp $^ $@
 
 rehaff: rehaff.cpp arh.h bufiz.h other.h tree.h variables.h
