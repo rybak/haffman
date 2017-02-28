@@ -9,6 +9,9 @@ then
 	exit 1
 fi
 
+DIR=test
+mkdir -p "$DIR"
+
 while [[ $# -gt 0 ]]
 do
 	FILE="$1"
@@ -18,12 +21,16 @@ do
 		shift
 		continue
 	fi
-	DEST="/tmp/${FILE}-clone"
+	DEST="${DIR}/${FILE}-clone"
+	ARCHIVE="${FILE}.ch"
+	ARCHIVE_TMP="${DIR}/${ARCHIVE}"
 	shift
 	echo "Testing haff rehaff on file '$FILE'."
 	./haff "$FILE"
+	mv "${ARCHIVE}" "${ARCHIVE_TMP}"
+	unset ARCHIVE
 	echo ""
-	./rehaff "${FILE}.ch" "$DEST"
+	./rehaff "$ARCHIVE_TMP" "$DEST"
 	echo ""
 	if diff --report-identical-files "$FILE" "$DEST"
 	then
@@ -31,7 +38,8 @@ do
 		echo "OK"
 	else
 		echo "Failed on file '$FILE'."
-		echo "Archive: '$DEST'."
+		echo "Archive: '${ARCHIVE_TMP}'."
+		echo "Output: '${DEST}'."
 		exit 2
 	fi
 done
