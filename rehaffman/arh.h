@@ -6,6 +6,7 @@ void FromInToOut()
 	int out_c, in_c;
 	KOLOUT = 0;
 
+	// progress meter
 	int P1, P2 = 0;
 	do
 	{
@@ -28,7 +29,7 @@ void FromInToOut()
 				P1=floor(((double)KOLOUT/KOL2)*80);
 				if(P1-P2==1)
 				{
-					printf("%c",176);
+					printf(".");
 					P2 = P1;
 				}
 			}

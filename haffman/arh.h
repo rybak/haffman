@@ -3,6 +3,7 @@ uc A[8]={128,64,32,16,8,4,2,1};
 void FromInToOut(){
 	int in_c=0,out_c=0,outc=0,i,q,inc=0;
 	int size;
+	// progress meter
 	int P1,P2=0;
 	do{
 		in_c=chget();
@@ -24,7 +25,7 @@ void FromInToOut(){
 				{
 					P1=floor(((double)inc/KOL)*80);
 					if(P1-P2==1) {
-						printf("%c",176);
+						printf(".");
 						P2=P1;
 					}
 				}
