@@ -1,0 +1,17 @@
+# archive file extension
+*.ch
+
+# visual studio files
+*.dsp
+*.dsw
+*.msp
+*.ncb
+*.opt
+*.plg
+
+# binaries
+haffman/haff
+rehaff/rehaff
+haff
+rehaffman
+
