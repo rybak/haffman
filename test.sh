@@ -9,6 +9,8 @@ then
 	exit 1
 fi
 
+source scripts/colors.sh # for colored output
+
 DIR=test
 mkdir -p "$DIR"
 
@@ -17,7 +19,8 @@ do
 	FILE="$1"
 	if [[ ! -f "$FILE" ]]
 	then
-		echo "Warning: '$FILE' is not a regular file. Skipping."
+		echo -ne "${YELLOW_FG}Warning${RESET_FONT}: "
+		echo "'$FILE' is not a regular file. Skipping."
 		shift
 		continue
 	fi
@@ -35,11 +38,12 @@ do
 	if diff --report-identical-files "$FILE" "$DEST"
 	then
 		rm -f "$DEST"
-		echo "OK"
+		echo -e "${GREEN_FG}OK${RESET_FONT}"
 	else
-		echo "Failed on file '$FILE'."
-		echo "Archive: '${ARCHIVE_TMP}'."
-		echo "Output: '${DEST}'."
+		echo -e "${RED_FG}FAIL${RESET_FONT}"
+		echo -e "\tFailed on file '$FILE'."
+		echo -e "\tArchive: '${ARCHIVE_TMP}'."
+		echo -e "\tOutput: '${DEST}'."
 		exit 2
 	fi
 done
