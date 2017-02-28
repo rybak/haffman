@@ -1,12 +1,6 @@
 void gen_init(){
 	int i;
-	for(i=0;i<256;i++)
-		if(kol[i]){
-			alph[K].c=i;
-			alph[K].w=kol[i];
-			alph[K].i=K;
-			K++;
-		}
+
 	for(i=0;i<K;i++){
 		tree[i].l=-1;
 		tree[i].r=-1;
@@ -18,7 +12,7 @@ void gen_init(){
 	t2=t;
 }
 
-void gencode(int P,unsigned char code[],int &size){
+void gencode(int P,uc code[],int &size){
 	int next;
 	if(tree[P].p==-1){
 		return;

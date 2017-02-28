@@ -75,6 +75,13 @@ void gen_codes(){
 void gen(){
 	int i,j;
 	gen_init();
+	if(K==1){
+		putc(alph[0].c,out);
+		fclose(in);
+		fclose(out);
+		fclose(TESTF);
+		exit(0);
+	}
 	while(t>1){
 		gen_find(i,j);
 		gencreate(i,j);

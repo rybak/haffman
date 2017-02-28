@@ -1,67 +1,71 @@
+#define uc unsigned char
+
 #include <iostream>
 #include <stdio.h>
 
 #include "variables.h"
 #include "arh.h"
-#include "codes.h"
-#include "treex.h"
+#include "other.h"
+#include "tree.h"
+
+#define FOR256 for(i=0;i<256;i++)
 
 using namespace std;
 //////julik2009   18169
 
 int main(){
-	int test=0;
-	TESTF=fopen("testfile.txt","w");
+	//var
+	//TESTF=fopen("testfile.txt","wb");
+	char filename[256],outfilename[256];
+	unsigned char wc;
+	unsigned int out_kol;
+	int i;
 	init();
-	char filename[256],outfilename[256];unsigned char wc;
-	int i,j;
-
-	printf("Input name of file\n\n");	scanf("%s",filename);
-	in=fopen(filename,"r");	strcpy(outfilename,filename);	strcat(outfilename,".ch");	out=fopen(outfilename,"w");
+	//files
+	printf("Input name of file\n\n");scanf("%s",filename);
+	strcpy(outfilename,filename);strcat(outfilename,".ch");
+//	fprintf(TESTF,"in:\t%s\nout:\t%s\n",filename,outfilename);
+	//in=fopen("1"/*filename*/,"rb");
+	//out=fopen("1.ch"/*outfilename*/,"wb");
+	in=fopen(filename,"rb");
+	out=fopen(outfilename,"wb");
 	if(in==NULL){cerr<<("Error opening file!\n");getchar();return 0;}
-	
-	while(!feof(in)){
-		wc=fgetc(in);
+	//kol
+	KOL=0;
+	do{
+		wc=getc(in);
 		kol[wc]++;
-	}
+		KOL++;
+	}while(!feof(in));
 	kol[wc]--;
-	
-	KOL=ftell(in);
-	fseek(in,0,SEEK_SET);bufs=KOL/buf_size;rest_in_bytes=(long int)(KOL-bufs*buf_size);
+	KOL--;
+	//generation
 	gen();
-	
-	fwrite(&KOL,8,1,out);fprintf(TESTF,"\nKOL=%I64d\n",KOL);
-	fwrite(&K,2,1,out);fprintf(TESTF,"\nK=%d\n",K);
-	test=(8+2);
-	fprintf(TESTF,"\ncodes:\n");
-	for(i=0;i<256;i++)if(kol[i]){
-		unsigned char TT=i;
-		fwrite(&TT,1,1,out);fprintf(TESTF,"d%d",i);
-		short int SIZE;
-		SIZE=codes[i].size;	fwrite(&SIZE,2,1,out);	fprintf(TESTF," %d ",SIZE);
-		j=0;
-		test=test+SIZE+3;
-		for(j=0;j<SIZE;j++){
-			unsigned char CODEJ=codes[i].code[j];
-			fwrite(&CODEJ,1,1,out);fprintf(TESTF,"%d",CODEJ);
+
+	/*fprintf(TESTF,"\nd\tkol\tsize\tcode\n");
+	FOR256 if(kol[i]){
+		fprintf(TESTF,"\n%d\t%d\t%d\t",i,kol[i],codes[i].size);
+		for(j=0;j<codes[i].size;j++)fprintf(TESTF,"%d",codes[i].code[j]);
+	}
+	*/
+	//meta info
+	//fprintf(TESTF,"\n");
+	fwrite(&KOL,4,1,out);		//fprintf(TESTF,"\nKOL==%d",KOL);
+	fwrite(&K,2,1,out);			//fprintf(TESTF,"\nK==%d\n",K);
+	FOR256
+		if(codes[i].size!=0){
+			wc=(unsigned char)(i);
+			putc(wc,out);
+			out_kol=kol[i];
+			fwrite(&out_kol,4,1,out);
 		}
-		fprintf(TESTF,"\n");
-	}
-	fprintf(TESTF,"\nbeg=%d\narchive:\n",test);
-	for(i=0;i<bufs;i++){
-		fread(buf_in,1,buf_size,in);
-		FromInToOut();
-	}
-
-	for(i=0;i<rest_in_bytes;i++){
-		wc=fgetc(in);
-		buf_in[i]=wc;
-	}
-	FromInToOut2();
-
+	//process
+	fseek(in,0,SEEK_SET);
+	FromInToOut();
+	//close
 	fclose(in);
 	fclose(out);
-	fclose(TESTF);
-	getchar();
+//	fclose(TESTF);
+	//getchar();
 	return 0;
 }
