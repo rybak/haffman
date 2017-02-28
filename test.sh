@@ -12,6 +12,12 @@ fi
 while [[ $# -gt 0 ]]
 do
 	FILE="$1"
+	if [[ ! -f "$FILE" ]]
+	then
+		echo "Warning: '$FILE' is not a regular file. Skipping."
+		shift
+		continue
+	fi
 	DEST="/tmp/${FILE}-clone"
 	shift
 	echo "Testing haff rehaff on file '$FILE'."
