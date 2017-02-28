@@ -30,6 +30,7 @@ void FromInToOut()
 				if(P1-P2==1)
 				{
 					printf(".");
+					fflush(stdout);
 					P2 = P1;
 				}
 			}
