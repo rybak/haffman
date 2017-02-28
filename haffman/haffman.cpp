@@ -14,16 +14,24 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 	//var
 	char filename[256],outfilename[256];
 	unsigned char wc;
 	unsigned int out_kol;
 	int i;
 	init();
-	//files
-	printf("Input name of file\n\n");
-	scanf("%s",filename);
+	if (argc != 1 && argc != 2) {
+		printf("Must be either zero or one argument.\n");
+		return -1;
+	}
+	if (argc <= 1) {
+		//files
+		printf("Input name of file\n\n");
+		scanf("%s",filename);
+	} else {
+		strcpy(filename, argv[1]);
+	}
 	strcpy(outfilename,filename);
 	strcat(outfilename,".ch");
 	//in=fopen("1"/*filename*/,"rb");

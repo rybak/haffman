@@ -14,7 +14,7 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	//var
 	char filename[256], outfilename[256];
@@ -22,12 +22,20 @@ int main()
 	unsigned int in_kol;
 	int i, j;
 	init();
-
+	if (argc != 1 && argc != 3) {
+		printf("Must be either zero or two arguments\n");
+		return -1;
+	}
 	//files	
-	printf("Input name of archive\n\n");
-	scanf("%s", filename);
-	printf("Input name of file\n\n");
-	scanf("%s", outfilename);
+	if (argc <= 2) {
+		printf("Input name of archive\n\n");
+		scanf("%s", filename);
+		printf("Input name of file\n\n");
+		scanf("%s", outfilename);
+	} else {
+		strcpy(filename, argv[1]);
+		strcpy(outfilename, argv[2]);
+	}
 	in  = fopen(filename,"rb"); 
 	out = fopen(outfilename,"wb");
 	if (in == NULL)
