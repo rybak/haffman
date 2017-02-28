@@ -19,4 +19,11 @@ test.txt:
 test: haff rehaff test.txt test.sh
 	./test.sh test.txt
 
-.PHONY: test
+test.bin:
+	dd if=/dev/urandom of=$@ bs=10MB count=1
+
+bin-test: haff rehaff test.bin test.sh
+	./test.sh test.bin
+
+.PHONY: test clean bin-test
+
