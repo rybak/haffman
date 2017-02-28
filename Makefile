@@ -11,19 +11,26 @@ clean:
 	rm -f haff rehaff
 	cd haffman && make clean
 	cd rehaffman && make clean
-	rm -f test2.txt
+	rm -f txt.test
+	rm -f bin.test
 
-test.txt:
+txt.test:
 	base64 /dev/urandom | head -c 10000000 > $@
 
-test: haff rehaff test.txt test.sh
-	./test.sh test.txt
+test: txt.test test.sh haff rehaff
+	./test.sh $<
 
-test.bin:
+bin.test:
 	dd if=/dev/urandom of=$@ bs=10MB count=1
 
-bin-test: haff rehaff test.bin test.sh
-	./test.sh test.bin
+bin-test: bin.test test.sh haff rehaff 
+	./test.sh $<
 
-.PHONY: test clean bin-test
+empty-test: empty-file.test test.sh haff rehaff
+	./test.sh $<
+
+tests: test bin-test empty-test
+	echo "All tests finished"
+
+.PHONY: test clean bin-test tests
 
